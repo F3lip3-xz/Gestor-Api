@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block contenido %}
+    <div class="row">
+        <div class="col-12">
+            <h1 class="text-center mb-4">Lista de Productos</h1>
+            <div class="d-flex justify-content-between mb-4">
+                <a href="{% url 'nuevo_producto' %}" class="btn btn-primary btn-lg">
+                    <i class="bi bi-plus-circle me-2"></i>Nuevo Producto
+                </a>
+                <a href="{% url 'importar_productos' %}" class="btn btn-outline-secondary btn-lg">
+                    <i class="bi bi-cloud-download me-2"></i>Importar desde API
+                </a>
+            </div>
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped align-middle">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th scope="col"><a href="?orden=nombre" class="text-white text-decoration-none">Nombre</a></th>
+                                    <th scope="col"><a href="?orden=precio" class="text-white text-decoration-none">Precio</a></th>
+                                    <th scope="col">Stock</th>
+                                    <th scope="col">Categoría</th>
+                                    <th scope="col" class="text-center">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for producto in productos %}
+                                    <tr>
+                                        <td>{{ producto.nombre }}</td>
+                                        <td>${{ producto.precio }}</td>
+                                        <td>{{ producto.stock }}</td>
+                                        <td>{{ producto.categoria }}</td>
+                                        <td class="text-center">
+                                            <a href="{% url 'detalle_producto' producto.id %}" class="btn btn-outline-info btn-sm">
+                                                <i class="bi bi-eye"></i>
+                                            </a>
+                                            <a href="{% url 'editar_producto' producto.id %}" class="btn btn-outline-warning btn-sm">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
+                                            <a href="{% url 'eliminar_producto' producto.id %}" class="btn btn-outline-danger btn-sm">
+                                                <i class="bi bi-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% if not productos %}
+                        <div class="alert alert-info text-center" role="alert">
+                            No hay productos disponibles. ¡Agrega uno ahora!
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
